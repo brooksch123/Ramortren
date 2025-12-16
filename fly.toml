@@ -1,0 +1,16 @@
+app = "space-proxy"
+primary_region = "iad"
+[env]
+PORT = "1337"
+
+[[services]]
+internal_port = 1337
+protocol = "tcp"
+
+[[services.ports]]
+handlers = ["http"]
+port = 80
+
+[[services.ports]]
+handlers = ["tls","http"]
+port = 443
