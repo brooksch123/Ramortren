@@ -1,19 +1,8 @@
-FROM node:20-alpine AS builder
+FROM node:20-alpine
 WORKDIR /app
-RUN npm install -g pnpm
 COPY package.json pnpm-lock.yaml* ./
-RUN pnpm install --frozen-lockfile
+RUN npm install -g pnpm && pnpm install --frozen-lockfile
 COPY . .
-RUN pnpm echo no-build
-FROM node:20-alpine AS runtime
-WORKDIR /app
-RUN npm install -g pnpm
-COPY package.json pnpm-lock.yaml* ./
-RUN pnpm install --frozen-lockfile --prod
-COPY --from=builder /app/dist ./dist
-COPY --from=builder /app/static ./static
-COPY --from=builder /app/assets ./assets
-COPY --from=builder /app/server.js ./server.js
-COPY --from=builder /app/*.js ./
+RUN pnpm build
 EXPOSE 1337
 CMD ["node", "server.js"]
