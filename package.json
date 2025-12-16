@@ -1,0 +1,7 @@
+{
+"type": "module",
+"scripts": {
+"build": "rspack --config rspack.config.js",
+"start": "node server.js"
+}
+}
